@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kix (0.1.0)
+    kix (1.0.0)
       activesupport
 
 GEM
