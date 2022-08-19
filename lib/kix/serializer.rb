@@ -25,6 +25,10 @@ module Kix
     end
 
     class << self
+      def inherited(subclass)
+        subclass.attributes(*@defined_attributes)
+      end
+
       def attributes(*attrs)
         attrs.each { |attr| defined_attributes.push(attr.to_s) }
       end

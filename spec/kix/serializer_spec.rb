@@ -27,5 +27,26 @@ RSpec.describe Kix::Serializer do
         "phone" => "N/A"
       })
     end
+
+    context "when a serializer is subclassed" do
+      let(:child_serializer) do
+        Class.new(serializer) do
+          attribute :child
+
+          def child
+            true
+          end
+        end
+      end
+
+      it "inherits the parents attributes" do
+        expect(child_serializer.new(object).as_json).to eq({
+        "name" => "John",
+        "email" => "john@example.com",
+        "phone" => "N/A",
+        "child" => true
+      })
+      end
+    end
   end
 end
