@@ -43,7 +43,7 @@ RSpec.describe Kix::Serializable do
     end
   end
 
-  context "when a class is subclassed" do
+  context "when a class is subclassed with a parent serailizer" do
     class Guest < User
       include Kix::Serializable
 
@@ -57,7 +57,24 @@ RSpec.describe Kix::Serializable do
     end
 
     it "sets the parent serializer by default" do
-      expect(User.serializer).to eq(UserSerializer)
+      expect(Guest.serializer).to eq(UserSerializer)
+    end
+  end
+
+  context "when a class is subclassed with a subclassed serailizer" do
+    class ManagerSerializer < Kix::Serializer
+    end
+
+    class Manager < User
+      include Kix::Serializable
+
+      def name
+        "Manager"
+      end
+    end
+
+    it "sets the subclass serializer" do
+      expect(Manager.serializer).to eq(ManagerSerializer)
     end
   end
 end

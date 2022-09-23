@@ -13,7 +13,15 @@ module Kix
     class_methods do
       def inherited(klass)
         super
+        # Use the parent serializer by default
         klass.serializer(serializer)
+
+        # See if there is a class specific serializer
+        begin
+          klass.serializer("#{klass}Serializer".constantize)
+        rescue NameError
+          klass.serializer(serializer)
+        end
       end
 
       def serializer(klass = nil)
